@@ -4,7 +4,7 @@ import '../widgets/search_box.dart';
 import '../widgets/hero_banner.dart';
 import '../data/destinations.dart';
 import '../widgets/destination_card.dart';
-
+import '../widgets/section_title.dart';
  
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,12 +18,29 @@ class HomeScreen extends StatelessWidget {
           children: [
             const HomeHeader(prenom: 'Sarra') ,
             const SizedBox(height: 20),
+
             const SearchBox(),
             const SizedBox(height: 24),
+
             HeroBanner(destination: destinations.first),
             const SizedBox(height: 24),
+
+             const SectionTitle(title: 'Catégories'),
+            const SizedBox(height: 16),
+
+            const SectionTitle(
+              title: 'Populaires',
+              action: 'Voir tout',
+            ),
+
+            const SizedBox(height: 12),
+
             for (final d in destinations)
                 DestinationCard(destination: d),
+            
+
+
+          
 
           ],
         ),
