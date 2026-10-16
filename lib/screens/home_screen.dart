@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/home_header.dart';
 import '../widgets/search_box.dart';
+import '../widgets/hero_banner.dart';
+import '../data/destinations.dart';
 
  
 class HomeScreen extends StatelessWidget {
@@ -15,7 +17,9 @@ class HomeScreen extends StatelessWidget {
           children: [
             const HomeHeader(prenom: 'Sarra') ,
             const SizedBox(height: 20),
+            const SizedBox(height: 20),
             const SearchBox(),
+            HeroBanner(destination: destinations.first)
           ],
         ),
       ),

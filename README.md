@@ -4,3 +4,14 @@ Plaier_2
 2) prenom est déclaré final car sa valeur ne doit pas etre modifiée ensuite 
 
 3)  cs.primary dépend de seedColor, tandis que Colors.teal reste fixe même si seedColor change.
+
+
+Palier_3
+1) voir image (Q1_Palier_1.png) dans assets 
+Si je place le DecoratedBox au début de children, avant l'image  lorsque l'image apparaît elle cache l'effet et la décoration du DecoratedBox car dans un Stack  le premier enfant est à l'arrière-plan et le dernier est au premier plan
+voir code en cmtr dans hero_banner.dart 
+
+2) Sans ClipRRect, l'image et le dégradé dépassent des coins arrondis
+
+3) right: 130 réserve un espace à droite pour éviter que le texte soit collé au bouton
+
