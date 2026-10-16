@@ -15,3 +15,10 @@ voir code en cmtr dans hero_banner.dart
 
 3) right: 130 réserve un espace à droite pour éviter que le texte soit collé au bouton
 
+
+Palier_4
+
+1) Expanded reserve à  la Column la largeur nécessaire ce qui permet au Spacer de répartir l'espace restant dans la Row note/prix et de pousser le prix vers la droite
+
+
+2) En ajoutant une destination dans la liste destinations du fichier destinations.dart homeScreen va le creer automatiquement 

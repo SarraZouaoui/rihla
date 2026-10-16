@@ -3,6 +3,7 @@ import '../widgets/home_header.dart';
 import '../widgets/search_box.dart';
 import '../widgets/hero_banner.dart';
 import '../data/destinations.dart';
+import '../widgets/destination_card.dart';
 
  
 class HomeScreen extends StatelessWidget {
@@ -17,9 +18,13 @@ class HomeScreen extends StatelessWidget {
           children: [
             const HomeHeader(prenom: 'Sarra') ,
             const SizedBox(height: 20),
-            const SizedBox(height: 20),
             const SearchBox(),
-            HeroBanner(destination: destinations.first)
+            const SizedBox(height: 24),
+            HeroBanner(destination: destinations.first),
+            const SizedBox(height: 24),
+            for (final d in destinations)
+                DestinationCard(destination: d),
+
           ],
         ),
       ),
