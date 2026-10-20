@@ -22,3 +22,14 @@ Palier_4
 
 
 2) En ajoutant une destination dans la liste destinations du fichier destinations.dart homeScreen va le creer automatiquement 
+
+
+Palier_5
+
+1) Sans setState() , le changement de la variable _categorie ne s'affiche pas automatiquement dans l'ecran 
+
+
+2) _filtrees est un getter recalculé à chaque build()
+ pour obtenir les destinations correspondant à la catégorie choisie
+
+ 3)  HeroBanner peut rester un StatelessWidget car il affiche une destination reçue en paramètre et ne gère pas son propre état
