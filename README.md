@@ -33,3 +33,16 @@ Palier_5
  pour obtenir les destinations correspondant à la catégorie choisie
 
  3)  HeroBanner peut rester un StatelessWidget car il affiche une destination reçue en paramètre et ne gère pas son propre état
+
+
+ suite du TP: navigation et formulaire 
+
+ Palirer_2:
+
+ 1) 
+  Oui, le filtre est conservé.Navigator.push ajoute DetailScreen au-dessus de HomeScreen dans la pile. Quand on utilise Navigator.pop, DetailScreen est retiré de la pile .
+
+
+2)  DetailScreen reçoit la destination grâce au constructeur
+
+3) Sans clipBehavior, les effets visuels de la carte ne respectent plus  ses coins arrondis lorsqu'on la touche

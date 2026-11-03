@@ -36,18 +36,17 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
 
               Positioned(
-                top: 40,
-                left: 16,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
+              top: 40,
+              left: 16,
+              child: IconButton(
+                tooltip: 'Retour',
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white,
+                    ),
                   ),
                 ),
-              ),
 
               Positioned(
                 top: 40,
