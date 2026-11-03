@@ -57,3 +57,13 @@ Palier3
 
 
 3) dispose() permet la libération de la mémoire et d'éviter de conserver inutilement des ressources lorsqu'on détruit l'ecran ou on ferme le form 
+
+
+Palier4:
+
+1) Le champ date est en readOnly pour empêcher l'utilisateur de saisir manuellement une date
+
+
+2) _total est un getter qui calcule automatiquement le prix total à partir de _prixParPersonne et du nombre de voyageurs.
+
+
