@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import '../models/destination.dart';
+import 'reservation_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final Destination destination;
@@ -216,9 +217,13 @@ class _DetailScreenState extends State<DetailScreen> {
 
                 ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Réservation effectuée !'),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReservationScreen(
+                          destination: widget.destination,
+                          voyageurs: _voyageurs,
+                        ),
                       ),
                     );
                   },

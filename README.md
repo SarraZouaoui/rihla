@@ -46,3 +46,14 @@ Palier_5
 2)  DetailScreen reçoit la destination grâce au constructeur
 
 3) Sans clipBehavior, les effets visuels de la carte ne respectent plus  ses coins arrondis lorsqu'on la touche
+
+
+Palier3
+
+1) Cette méthode sert à valider tous les champs du formulaire (en exécutant chaque fonction validator)
+
+
+2) inputFormatters filtre pendant la saisie elle empèche l'utilisateur d'entrer autre chose que des chiffres , tandis que validator vérifie après la saisie lorsque l'utilisateur veut valider le formulaire  .
+
+
+3) dispose() permet la libération de la mémoire et d'éviter de conserver inutilement des ressources lorsqu'on détruit l'ecran ou on ferme le form 
