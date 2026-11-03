@@ -67,3 +67,13 @@ Palier4:
 2) _total est un getter qui calcule automatiquement le prix total à partir de _prixParPersonne et du nombre de voyageurs.
 
 
+Palier5:
+
+1)  reservation retourne null, car l'utilisateur quitte le formulaire sans confirmer sa réservation
+
+
+2) VS Code affiche un avertissement lié à use_build_context_synchronously
+Le test if (!mounted) return; permet de vérifier que le widget existe toujours avant d'utiliser son context
+
+
+3) Navigator.pop(context) permet  de fermer la boîte de dialogue et de revenir à l'écran précédent, sans quitter DetailScreen

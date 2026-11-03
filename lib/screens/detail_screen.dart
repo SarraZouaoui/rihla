@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../models/destination.dart';
 import 'reservation_screen.dart';
+import '../models/reservation.dart';
 
 class DetailScreen extends StatefulWidget {
   final Destination destination;
@@ -20,6 +21,47 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   int _voyageurs = 1;
   bool _favori = false;
+  Future<void> _reserver() async {
+  final reservation = await Navigator.push<Reservation>(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ReservationScreen(
+        destination: widget.destination,
+        voyageurs: _voyageurs,
+      ),
+    ),
+  );
+
+  // TODO 3 : si reservation est null (retour sans valider), s'arrêter
+  if (reservation == null) return;
+
+  // TODO 4 : si l'écran n'est plus affiché (!mounted), s'arrêter
+  if (!mounted) return;
+
+  await showDialog<void>(
+    context: context,
+    builder: (context) => AlertDialog(
+      icon: const Icon(Icons.check_circle, color: Colors.green, size: 48),
+      title: const Text('Réservation confirmée'),
+      // TODO 5 : nom, destination, voyageurs,
+      //          formule, total et e-mail
+      content: Text(
+        'Nom : ${reservation.nom}\n'
+        'Destination : ${reservation.destination.nom}\n'
+        'Voyageurs : ${reservation.voyageurs}\n'
+        'Formule : ${reservation.formule}\n'
+        'Total : ${reservation.total} DT\n'
+        'E-mail : ${reservation.email}',
+      ),
+      actions: [
+        FilledButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Parfait'),
+        ),
+      ],
+    ),
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -216,17 +258,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
 
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReservationScreen(
-                          destination: widget.destination,
-                          voyageurs: _voyageurs,
-                        ),
-                      ),
-                    );
-                  },
+                  onPressed: _reserver,
                   child: const Text('Réserver'),
                 ),
               ],
