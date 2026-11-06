@@ -71,13 +71,17 @@ class _DetailScreenState extends State<DetailScreen> {
           // Image et boutons Retour / Favoris
           Stack(
             children: [
-              Image.asset(
-                widget.destination.image,
-                height: 340,
-                width: double.infinity,
-                fit: BoxFit.cover,
+            SizedBox(
+              height: 340,
+              width: double.infinity,
+              child: Hero(
+                tag: 'image-${widget.destination.nom}',
+                child: Image.asset(
+                  widget.destination.image,
+                  fit: BoxFit.cover,
+                ),
               ),
-
+            ),
               Positioned(
               top: 40,
               left: 16,
