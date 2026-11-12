@@ -77,3 +77,13 @@ Le test if (!mounted) return; permet de vérifier que le widget existe toujours 
 
 
 3) Navigator.pop(context) permet  de fermer la boîte de dialogue et de revenir à l'écran précédent, sans quitter DetailScreen
+
+
+Palier_0
+
+1) Le serveur renvoie le code 404 Not Found , C'est un code de la famille 4xx (erreurs côté client) c'est à dire que la ressource demandée n'existe pas 
+
+
+2) C'est le serveur qui a généré automatiquement l'identifiant
+
+3) La requête GET sert à récupérer des données déjà présentes sur le serveur alors que la requête POST sert à envoyer de nouvelles données au serveur. Ces données sont placées dans le (Body) de la requête
