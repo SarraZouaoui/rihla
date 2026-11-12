@@ -98,3 +98,12 @@ Palier_2
 
 3) Parce que la requête HTTP est asynchrone et prend du temps. Future indique que la liste sera disponible plus tard, après la réponse du serveur
 
+Palier_3
+
+1) Parce que la variable sera initialisée plus tard dans initState()
+
+2)  L'application  affiche une erreur ou provoquer une
+exception au lieu d'afficher un message utile avec un bouton Réessayer
+
+
+3)  Non, car les destinations sont déjà chargées dans _futurDestinations

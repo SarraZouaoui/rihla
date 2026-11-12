@@ -6,6 +6,7 @@ import '../data/destinations.dart';
 import '../widgets/destination_card.dart';
 import '../widgets/section_title.dart';
 import '../models/destination.dart';
+import '../services/api_service.dart';
  
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,24 +19,77 @@ class _HomeScreenState extends State<HomeScreen> {
   String _categorie = 'Tout';
   int _onglet = 0;
 
+  late Future<List<Destination>> _futurDestinations;
 
-  List<Destination> get _filtrees {
-    
-    // TODO 1 : si _categorie vaut 'Tout', renvoyer destinations ;
-    //          sinon, seulement celles dont categorie == _categorie
-    //          (méthode where puis toList, vue en TP 2)
-
-    if (_categorie == 'Tout') 
-      {
-      return destinations;
-      } 
-    else {
-    return destinations .where((d) => d.categorie == _categorie) .toList();
-        }
+  @override
+  void initState() {
+    super.initState();
+    // TODO 1 : lancer la requête et stocker le Future
+    _futurDestinations = ApiService.getDestinations();
   }
 
-  Widget _construireAccueil() {
+
+List<Destination> _filtrer(List<Destination> toutes) =>
+    _categorie == 'Tout'
+        ? toutes
+        : toutes.where((d) => d.categorie == _categorie).toList();
+
+
+Widget _construireExplorer() {
+  return FutureBuilder<List<Destination>>(
+    future: _futurDestinations,
+    builder: (context, snapshot) {
+
+      // TODO 2 : en attente (waiting) et pas encore de données
+      //          -> CircularProgressIndicator centré
+      if (snapshot.connectionState == ConnectionState.waiting &&
+          !snapshot.hasData) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      // TODO 3 : erreur (snapshot.hasError) -> ErreurReseau(...)
+      if (snapshot.hasError) {
+        return ErreurReseau(
+          message: snapshot.error.toString(),
+          onReessayer: () {
+          setState(() {
+            _futurDestinations = ApiService.getDestinations();
+          });
+        },
+        );
+      }
+
+      final destinations = snapshot.data!;
+
+      return RefreshIndicator(
+        onRefresh: _recharger,
+        child: _construireAccueil(destinations),
+      );
+    },
+  );
+}
+
+
+Future<void> _recharger() async {
+  final futur = ApiService.getDestinations();
+
+  setState(() {
+    _futurDestinations = futur;
+  });
+
+  try {
+    await futur;
+  } catch (_) {}
+}
+
+
+
+  Widget _construireAccueil(List<Destination> destinations) {
+  final filtrees = _filtrer(destinations);
   return ListView(
+    physics: const AlwaysScrollableScrollPhysics(),
     padding: const EdgeInsets.all(20),
     children: [
       const HomeHeader(prenom: 'Sarra'),
@@ -75,9 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       const SizedBox(height: 12),
 
-      for (final d in _filtrees)
+      for (final d in filtrees)
         DestinationCard(
-          key: ValueKey(d.nom),
+          key: ValueKey(d.id),
           destination: d,
         ),
     ],
@@ -114,18 +168,56 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    body: SafeArea(
-      child: _onglet == 0
-          ? _construireAccueil()
-          : Center(
-              child: Text(
-                _onglet == 1
-                    ? 'Bientôt disponible : Favoris'
-                    : 'Bientôt disponible : Profil',
-                  ),
-                ),
-        ),
+        body: SafeArea(
+          child: _onglet == 0
+              ? _construireExplorer()
+              : Center(
+                  child: Text(
+                    _onglet == 1
+                        ? 'Bientôt disponible : Favoris'
+                        : 'Bientôt disponible : Profil',
+                      ),
+                    ),
+            ),
     );
   }
 
 }
+
+class ErreurReseau extends StatelessWidget {
+  final String message;
+  final VoidCallback onReessayer;
+
+  const ErreurReseau({
+    super.key,
+    required this.message,
+    required this.onReessayer,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.cloud_off,
+            size: 60,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          const SizedBox(height: 16),
+          Text(message),
+          const SizedBox(height: 8),
+          const Text('Vérifiez que json-server est lancé.'),
+          const SizedBox(height: 16),
+          FilledButton.tonalIcon(
+            onPressed: onReessayer,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Réessayer'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
