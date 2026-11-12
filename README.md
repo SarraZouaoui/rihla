@@ -107,3 +107,16 @@ exception au lieu d'afficher un message utile avec un bouton Réessayer
 
 
 3)  Non, car les destinations sont déjà chargées dans _futurDestinations
+
+
+Palier_4
+
+1)  Pour éviter de dupliquer les informations de la destination
+
+2) Le serveur peut ne pas reconnaître les données comme du JSON
+et ne pas les interpréter correctement
+
+
+3) Parce que pendant l'attente de la réponse du serveur,
+ l'écran peut être détruit. mounted vérifie que le widget existe encore
+avant d'utiliser son context

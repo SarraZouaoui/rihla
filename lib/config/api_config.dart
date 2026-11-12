@@ -1,4 +1,7 @@
 import 'package:flutter/foundation.dart';
+import '../models/reservation.dart';
+
+
 
 /// TP5 — Adresse du serveur json-server.
 ///
