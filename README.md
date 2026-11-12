@@ -87,3 +87,14 @@ Palier_0
 2) C'est le serveur qui a généré automatiquement l'identifiant
 
 3) La requête GET sert à récupérer des données déjà présentes sur le serveur alors que la requête POST sert à envoyer de nouvelles données au serveur. Ces données sont placées dans le (Body) de la requête
+
+
+Palier_2
+
+1) Parce qu'il permet de créer et de retourner un nouvel objet Destination
+
+
+2) Une erreur de type se produit, car le code attend un int
+
+3) Parce que la requête HTTP est asynchrone et prend du temps. Future indique que la liste sera disponible plus tard, après la réponse du serveur
+
