@@ -159,7 +159,7 @@ Future<void> _recharger() async {
           NavigationDestination(
             icon: const Icon(Icons.explore_outlined),
             selectedIcon: const Icon(Icons.explore),
-            label: 'Explorer',
+            label: 'Voyages',
           ),
           NavigationDestination(
             icon: Badge(
