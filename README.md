@@ -128,3 +128,11 @@ Palier 0 :
 
 cette modification  n'affecte pas main elle ne concerne que la brache feature /favoris
 
+Palier 2 :
+1) FavoriteButton peut être un "StatelessWidget"   car il ne gère plus lui meme son etat Il utilise context.watch<FavorisModel>() pour observer les changements dans Provider. Quand un favori est ajouté ou supprimé, Provider notifie les widgets et FavoriteButton se reconstruit automatiquement avec le nouvel état
+
+
+2) On utilise une Map<String, Destination> avec l'ID comme clé pour identifier chaque destination de manière unique
+
+
+3) Les favoris sont stockés uniquement en mémoire dans FavorisModel, dans une Map. Lors d'un hot restart, l'application redémarre et le FavorisModel est recréé. La Map est donc initialisée vide et les anciens favoris sont perdus
