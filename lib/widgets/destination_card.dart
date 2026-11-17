@@ -106,7 +106,7 @@ class DestinationCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const FavoriteButton(),
+                      FavoriteButton(destination: destination),
                     ],
                   ),
                 ],

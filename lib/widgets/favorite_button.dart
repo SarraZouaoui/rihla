@@ -1,50 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class FavoriteButton  extends StatefulWidget {
-  const FavoriteButton({super.key});
+import '../models/destination.dart';
+import '../providers/favoris_model.dart';
 
-  @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
-}
+class FavoriteButton extends StatelessWidget {
+  final Destination destination;
 
-class _FavoriteButtonState extends State<FavoriteButton> {
-  // TODO 1 : un booléen privé _favori, faux au départ
-    bool _favori = false;
-
-    void _basculer() {
-    // TODO 2 : inverser _favori avec setState
-
-       setState(() {
-      _favori = !_favori;
-        });
-
-
-
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        content: Text(_favori ? 'Ajouté aux favoris' : 'Retiré des favoris'),
-        duration: const Duration(seconds: 1),
-      ));
-  }
-
-
+  const FavoriteButton({
+    super.key,
+    required this.destination,
+  });
 
   @override
   Widget build(BuildContext context) {
-    // TODO 3 : IconButton qui appelle _basculer ;
-    //  icône favorite (rouge) ou favorite_border selon _favori
-     return IconButton(
-      onPressed: _basculer,
+    final favoris = context.watch<FavorisModel>();
+    final estFavori = favoris.estFavori(destination);
+
+    return IconButton(
+      onPressed: () {
+        final estAjoute =
+            context.read<FavorisModel>().basculer(destination);
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(
+                estAjoute
+                    ? 'Ajouté aux favoris'
+                    : 'Retiré des favoris',
+              ),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+      },
       icon: Icon(
-        _favori ? Icons.favorite : Icons.favorite_border,
-        color: _favori ? Colors.red : null,
+        estFavori ? Icons.favorite : Icons.favorite_border,
+        color: estFavori ? Colors.red : null,
       ),
     );
-
-    
-
-
-
   }
 }
