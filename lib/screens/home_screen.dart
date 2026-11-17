@@ -7,6 +7,9 @@ import '../widgets/destination_card.dart';
 import '../widgets/section_title.dart';
 import '../models/destination.dart';
 import '../services/api_service.dart';
+import 'package:provider/provider.dart';
+import '../providers/favoris_model.dart';
+import 'favoris_screen.dart';
  
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -142,6 +145,7 @@ Future<void> _recharger() async {
 
   @override
   Widget build(BuildContext context) {
+    final nombreFavoris = context.watch<FavorisModel>().nombre;
     return Scaffold(
         bottomNavigationBar: NavigationBar(
           selectedIndex: _onglet,
@@ -150,32 +154,42 @@ Future<void> _recharger() async {
           _onglet = index;
           });
           },
-        destinations: const [
+
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.explore_outlined),
-            selectedIcon: Icon(Icons.explore),
+            icon: const Icon(Icons.explore_outlined),
+            selectedIcon: const Icon(Icons.explore),
             label: 'Explorer',
           ),
           NavigationDestination(
-            icon: Icon(Icons.favorite_border),
-            selectedIcon: Icon(Icons.favorite),
+            icon: Badge(
+              label: Text('$nombreFavoris'),
+              isLabelVisible: nombreFavoris > 0,
+              child: const Icon(Icons.favorite_border),
+            ),
+            selectedIcon: Badge(
+              label: Text('$nombreFavoris'),
+              isLabelVisible: nombreFavoris > 0,
+              child: const Icon(Icons.favorite),
+            ),
             label: 'Favoris',
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.person_outline),
             selectedIcon: Icon(Icons.person),
             label: 'Profil',
           ),
         ],
+
       ),
         body: SafeArea(
           child: _onglet == 0
               ? _construireExplorer()
-              : Center(
-                  child: Text(
-                    _onglet == 1
-                        ? 'Bientôt disponible : Favoris'
-                        : 'Bientôt disponible : Profil',
+              : _onglet == 1
+                  ? const FavorisScreen()
+                  : Center(
+                      child: Text(
+                        'Bientôt disponible : Profil',
                       ),
                     ),
             ),
