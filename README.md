@@ -120,3 +120,11 @@ et ne pas les interpréter correctement
 3) Parce que pendant l'attente de la réponse du serveur,
  l'écran peut être détruit. mounted vérifie que le widget existe encore
 avant d'utiliser son context
+
+
+Palier 0 :
+
+1) Que se passe-t-il pour main si vous cassez l'application sur feature/favoris ?
+
+cette modification  n'affecte pas main elle ne concerne que la brache feature /favoris
+
