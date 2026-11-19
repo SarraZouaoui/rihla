@@ -4,6 +4,7 @@ import '../models/destination.dart';
 import 'reservation_screen.dart';
 import '../models/reservation.dart';
 import '../services/api_service.dart';
+import '../widgets/favorite_button.dart';
 
 class DetailScreen extends StatefulWidget {
   final Destination destination;
@@ -21,7 +22,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   int _voyageurs = 1;
-  bool _favori = false;
+  
  
 Future<void> _reserver() async {
   final reservation = await Navigator.push<Reservation>(
@@ -122,20 +123,13 @@ Future<void> _reserver() async {
               Positioned(
                 top: 40,
                 right: 16,
-                child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _favori = !_favori;
-                    });
-                  },
-                  icon: Icon(
-                    _favori ? Icons.favorite : Icons.favorite_border,
-                    color: _favori ? Colors.red : Colors.black,
+                child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: FavoriteButton(destination: widget.destination),
                   ),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Colors.white,
-                  ),
-                ),
               ),
             ],
           ),
