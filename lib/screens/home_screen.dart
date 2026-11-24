@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import '../widgets/home_header.dart';
 import '../widgets/search_box.dart';
@@ -9,6 +10,7 @@ import '../models/destination.dart';
 import '../services/api_service.dart';
 import 'package:provider/provider.dart';
 import '../providers/favoris_model.dart';
+import '../providers/reglages_model.dart';
 import 'favoris_screen.dart';
  
 class HomeScreen extends StatefulWidget {
@@ -146,7 +148,22 @@ Future<void> _recharger() async {
   @override
   Widget build(BuildContext context) {
     final nombreFavoris = context.watch<FavorisModel>().nombre;
+    final reglages = context.watch<ReglagesModel>();
+
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                reglages.sombre ? Icons.light_mode : Icons.dark_mode,
+              ),
+              onPressed: () {
+                context.read<ReglagesModel>().basculerTheme();
+              },
+            ),
+          ],
+        ),
+
         bottomNavigationBar: NavigationBar(
           selectedIndex: _onglet,
           onDestinationSelected: (index) {
@@ -234,4 +251,3 @@ class ErreurReseau extends StatelessWidget {
     );
   }
 }
-
