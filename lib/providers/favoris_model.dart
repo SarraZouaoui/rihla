@@ -1,17 +1,14 @@
+
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/destination.dart';
 
-/// TP6 — Partie 2.2 : favoris partagés par tous les écrans.
-///
-/// Laissez Copilot compléter les TODO UN PAR UN (Tab pour accepter,
-/// Échap pour rejeter, Alt+] pour voir une autre proposition).
-/// Avant d'accepter, vérifiez :
-///   - la clé est d.id (et non d.nom) ;
-///   - notifyListeners() est appelé dans basculer ;
-///   - la liste exposée est en lecture seule (List.unmodifiable).
-/// Notez chaque décision dans votre journal IA.
+/// TP7 — Partie 1 : favoris persistants.
 class FavorisModel extends ChangeNotifier {
+  static const _cle = 'favoris';
+
   // favoris rangés par id : Map<String, Destination>
   final Map<String, Destination> _favoris = {};
 
@@ -21,16 +18,50 @@ class FavorisModel extends ChangeNotifier {
 
   int get nombre => _favoris.length;
 
-  bool basculer(Destination d) {
-    final estAjoute = !_favoris.containsKey(d.id);
+  // Charger les favoris enregistrés sur l'appareil
+  Future<void> charger() async {
+    final prefs = await SharedPreferences.getInstance();
 
-    if (estAjoute) {
-      _favoris[d.id] = d;
-    } else {
-      _favoris.remove(d.id);
+    final liste = prefs.getStringList(_cle) ?? [];
+
+    debugPrint('FAVORIS CHARGÉS : ${liste.length}');
+    debugPrint('CONTENU : $liste');
+
+    for (final texte in liste) {
+      final json = jsonDecode(texte);
+      final destination = Destination.fromJson(json);
+
+      _favoris[destination.id] = destination;
     }
 
     notifyListeners();
-    return estAjoute;
+  }
+
+  // Sauvegarder les favoris sur l'appareil
+  Future<void> _sauvegarder() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final liste = _favoris.values
+        .map((d) => jsonEncode(d.toJson()))
+        .toList();
+
+    final resultat = await prefs.setStringList(_cle, liste);
+
+    debugPrint('FAVORIS SAUVEGARDÉS : $resultat');
+    debugPrint('NOMBRE : ${liste.length}');
+    debugPrint('CONTENU : $liste');
+  }
+
+  bool basculer(Destination d) {
+    final ajoute = _favoris.remove(d.id) == null;
+
+    if (ajoute) {
+      _favoris[d.id] = d;
+    }
+
+    _sauvegarder();
+    notifyListeners();
+
+    return ajoute;
   }
 }

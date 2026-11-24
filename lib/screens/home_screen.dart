@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import '../widgets/home_header.dart';
 import '../widgets/search_box.dart';
@@ -9,6 +10,7 @@ import '../models/destination.dart';
 import '../services/api_service.dart';
 import 'package:provider/provider.dart';
 import '../providers/favoris_model.dart';
+import '../providers/reglages_model.dart';
 import 'favoris_screen.dart';
  
 class HomeScreen extends StatefulWidget {
@@ -66,10 +68,38 @@ Widget _construireExplorer() {
 
       final destinations = snapshot.data!;
 
-      return RefreshIndicator(
-        onRefresh: _recharger,
+return RefreshIndicator(
+  onRefresh: _recharger,
+  child: Column(
+    children: [
+      if (ApiService.depuisCache)
+        Container(
+          width: double.infinity,
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.wifi_off,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Hors connexion : données enregistrées',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ],
+          ),
+        ),
+      Expanded(
         child: _construireAccueil(destinations),
-      );
+      ),
+    ],
+  ),
+);
     },
   );
 }
@@ -99,6 +129,7 @@ Future<void> _recharger() async {
       const SizedBox(height: 20),
       const SearchBox(),
       const SizedBox(height: 24),
+      if (destinations.isNotEmpty)
       HeroBanner(destination: destinations.first),
       const SizedBox(height: 24),
       const SectionTitle(title: 'Catégories'),
@@ -146,7 +177,22 @@ Future<void> _recharger() async {
   @override
   Widget build(BuildContext context) {
     final nombreFavoris = context.watch<FavorisModel>().nombre;
+    final reglages = context.watch<ReglagesModel>();
+
     return Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                reglages.sombre ? Icons.light_mode : Icons.dark_mode,
+              ),
+              onPressed: () {
+                context.read<ReglagesModel>().basculerTheme();
+              },
+            ),
+          ],
+        ),
+
         bottomNavigationBar: NavigationBar(
           selectedIndex: _onglet,
           onDestinationSelected: (index) {
@@ -234,4 +280,3 @@ class ErreurReseau extends StatelessWidget {
     );
   }
 }
-
