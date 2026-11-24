@@ -64,4 +64,13 @@ class FavorisModel extends ChangeNotifier {
 
     return ajoute;
   }
+    // Effacer tous les favoris enregistrés
+  Future<void> effacer() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _favoris.clear();
+    await prefs.remove(_cle);
+
+    notifyListeners();
+  }
 }

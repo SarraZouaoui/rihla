@@ -118,6 +118,51 @@ Future<void> _recharger() async {
 }
 
 
+// Effacer les données enregistrées sur l'appareil
+Future<void> _effacerDonnees() async {
+  final confirmer = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('Effacer les données ?'),
+      content: const Text(
+        'Voulez-vous vraiment supprimer les favoris, '
+        'les réglages et le cache des destinations ?',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('Annuler'),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text('Effacer'),
+        ),
+      ],
+    ),
+  );
+
+  if (confirmer != true) return;
+
+  await Future.wait([
+    context.read<FavorisModel>().effacer(),
+    context.read<ReglagesModel>().reinitialiser(),
+    ApiService.effacerCache(),
+  ]);
+
+  if (!mounted) return;
+
+  setState(() {
+    _futurDestinations = ApiService.getDestinations();
+  });
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('Les données ont été effacées.'),
+    ),
+  );
+}
+
+
 
   Widget _construireAccueil(List<Destination> destinations) {
   final filtrees = _filtrer(destinations);
@@ -189,6 +234,13 @@ Future<void> _recharger() async {
               onPressed: () {
                 context.read<ReglagesModel>().basculerTheme();
               },
+            ),
+
+            // Bouton pour effacer les données
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: 'Effacer les données',
+              onPressed: _effacerDonnees,
             ),
           ],
         ),

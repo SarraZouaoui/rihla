@@ -15,6 +15,13 @@ class ApiService {
   static const _cleCache = 'cache_destinations';
 
   static bool depuisCache = false;
+    // Effacer le cache des destinations
+  static Future<void> effacerCache() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.remove(_cleCache);
+    depuisCache = false;
+  }
 
   static List<Destination> _decoder(String corps) =>
       (jsonDecode(corps) as List)

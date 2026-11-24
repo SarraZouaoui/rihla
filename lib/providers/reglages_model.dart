@@ -21,4 +21,15 @@ class ReglagesModel extends ChangeNotifier {
     await preferences.setBool(_cle, _sombre);
     notifyListeners();
   }
+   Future<void> reinitialiser() async {
+    final preferences = await SharedPreferences.getInstance();
+
+    _sombre = false;
+    await preferences.remove(_cle);
+
+    notifyListeners();
+  }
+  
 }
+
+
