@@ -136,3 +136,20 @@ Palier 2 :
 
 
 3) Les favoris sont stockés uniquement en mémoire dans FavorisModel, dans une Map. Lors d'un hot restart, l'application redémarre et le FavorisModel est recréé. La Map est donc initialisée vide et les anciens favoris sont perdus
+
+
+TP_7
+
+Palier 3: 
+
+1) 
+
+On vérifie d'abord que le serveur a répondu avec le code 200 pour s'assurer que les données reçues sont correctes. Ensuite, on les enregistre dans le cache afin de ne pas remplacer les anciennes données valides par une réponse contenant une erreur.
+
+2) 
+
+Il voit l'écran d'erreur réseau avec le bouton « Réessayer ». En effet, aucune donnée n'a encore été enregistrée dans le cache. L'application ne peut donc pas récupérer les destinations sans connexion au serveur.
+
+3) 
+
+rethrow relance l'erreur qui a été interceptée dans le bloc catch, en conservant sa trace d'origine. Ensuite, le FutureBuilder récupère cette erreur avec snapshot.hasError et affiche le widget ErreurReseau.

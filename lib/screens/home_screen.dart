@@ -68,10 +68,38 @@ Widget _construireExplorer() {
 
       final destinations = snapshot.data!;
 
-      return RefreshIndicator(
-        onRefresh: _recharger,
+return RefreshIndicator(
+  onRefresh: _recharger,
+  child: Column(
+    children: [
+      if (ApiService.depuisCache)
+        Container(
+          width: double.infinity,
+          color: Theme.of(context).colorScheme.secondaryContainer,
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.wifi_off,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Hors connexion : données enregistrées',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondaryContainer,
+                ),
+              ),
+            ],
+          ),
+        ),
+      Expanded(
         child: _construireAccueil(destinations),
-      );
+      ),
+    ],
+  ),
+);
     },
   );
 }
@@ -101,6 +129,7 @@ Future<void> _recharger() async {
       const SizedBox(height: 20),
       const SearchBox(),
       const SizedBox(height: 24),
+      if (destinations.isNotEmpty)
       HeroBanner(destination: destinations.first),
       const SizedBox(height: 24),
       const SectionTitle(title: 'Catégories'),
